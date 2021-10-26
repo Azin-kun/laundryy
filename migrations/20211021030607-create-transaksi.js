@@ -8,25 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_admin: {
+      id_oprator: {
         type: Sequelize.INTEGER,
         references: {
-          model: "admin",
-          key: "id_admin"
-        }
-      },
-      id_owner: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "owner",
-          key: "id_owner"
-        }
-      },
-      id_kasir: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "kasir",
-          key: "id_kasir"
+          model: "oprator",
+          key: "id_oprator"
         }
       },
       tgl: {

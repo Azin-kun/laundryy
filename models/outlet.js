@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasOne(models.kasir, {
+      this.hasOne(models.oprator, {
         foreignKey: "id_outlet",
-        as: "kasir"
+        as: "oprator"
       })
     }
   };
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     nama_outlet: DataTypes.STRING,
+    jenis_outlet: DataTypes.ENUM('universal', 'original'),
     alamat: DataTypes.STRING
   }, {
     sequelize,

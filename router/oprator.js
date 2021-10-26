@@ -1,11 +1,16 @@
 const express = require("express")
 const app = express()
+const md5 = require("md5")
 
-const owner = require("../models/index").owner
+const oprator = require("../models/index").oprator
 
 const multer = require("multer")
 const path = require("path")
 const fs = require("fs")
+
+const auth = require("./auth")
+const jwt = require("jsonwebtoken")
+const SECRET_KEY = "nodekel6"
 
 //---------------------------------------------------------------------------------------------
 const storage = multer.diskStorage({
@@ -22,8 +27,10 @@ const upload = multer({storage:storage})
 
 app.use(express.urlencoded({extended:true}))
 
-app.get("/", async(req, res) => {
-    owner.findAll()
+app.get("/",async(req, res) => {
+    oprator.findAll({
+        include:["outlet"]
+    })
     .then(result => {
         res.json(result)
     })
@@ -34,16 +41,18 @@ app.get("/", async(req, res) => {
     })
 })
 
-app.post("/", upload.single("image") , async(req, res) => {
+app.post("/", upload.single("img_profil") , async(req, res) => {
     let data = {
         nama: req.body.nama,
         img_profil: req.file.filename,
         username: req.body.username,
-        password: req.body.password,
-        tlp: req.body.tlp
+        password: md5(req.body.password),
+        no_tlp: req.body.no_tlp,
+        level: req.body.level,
+        id_outlet: req.body.id_outlet
     }
 
-    owner.create(data)
+    oprator.create(data)
     .then(result => {
         res.json({
             message: "data telah di masukan",
@@ -57,23 +66,25 @@ app.post("/", upload.single("image") , async(req, res) => {
     })
 })
 
-app.put("/", upload.single("image") ,async(req, res) => {
+app.put("/",upload.single("img_profil") ,async(req, res) => {
     let data = {
         nama: req.body.nama,
         img_profil: req.file.filename,
         username: req.body.username,
-        password: req.body.password,
-        tlp: req.body.tlp
+        password: md5(req.body.password),
+        no_tlp: req.body.no_tlp,
+        level: req.body.level,
+        id_outlet: req.body.id_outlet
     }
         
     let param = {
-        id_owner: req.body.id_owner
+        id_oprator: req.body.id_oprator
     }
 
 //---------------------------------------------------------------------------------------------
     if (req.file) {
-        let oldowner = await owner.findOne({where: param})
-        let oldImage = oldowner.img_profil
+        let oldoprator = await oprator.findOne({where: param})
+        let oldImage = oldoprator.img_profil
 
         //delete file lama
         let pathfile = path.join(__dirname,"../image",oldImage)
@@ -83,7 +94,7 @@ app.put("/", upload.single("image") ,async(req, res) => {
     }
 
 //---------------------------------------------------------------------------------------------
-    owner.update(data,{where : param})
+    oprator.update(data,{where : param})
     .then(result => {
         res.json({
             message: "data telah di update",
@@ -97,16 +108,16 @@ app.put("/", upload.single("image") ,async(req, res) => {
     })
 })
 
-app.delete("/:id_owner", async(req, res) => {
-    let id_owner = req.params.id_owner
+app.delete("/:id_oprator", async(req, res) => {
+    let id_oprator = req.params.id_oprator
     let perameter = {
-        id_owner: id_owner
+        id_oprator: id_oprator
     }
 
 //---------------------------------------------------------------------------------------------
 
-    let oldowner = await owner.findOne({where: perameter})
-    let oldImage = oldowner.img_profil
+    let oldoprator = await oprator.findOne({where: perameter})
+    let oldImage = oldoprator.img_profil
 
     //delete file lama
     let pathfile = path.join(__dirname,"../image",oldImage)
@@ -116,7 +127,7 @@ app.delete("/:id_owner", async(req, res) => {
 
 //---------------------------------------------------------------------------------------------
 
-    owner.destroy({where : perameter})
+    oprator.destroy({where : perameter})
     .then(result => {
         res.json({
             message: "data telah di hapus",
@@ -128,6 +139,30 @@ app.delete("/:id_owner", async(req, res) => {
             message: error.message
         })
     })
+})
+
+app.post("/login", async (req,res) => {
+    let params = {
+        username: req.body.username,
+        password: req.body.password
+    }
+
+    let result = await oprator.findOne({where: params})
+    if(result){
+        let payload = JSON.stringify(result)
+        // generate token
+        let token = jwt.sign(payload, SECRET_KEY)
+        res.json({
+            logged: true,
+            data: result,
+            token: token
+        })
+    }else{
+        res.json({
+            logged: false,
+            message: "Invalid username or password"
+        })
+    }
 })
 
 module.exports = app

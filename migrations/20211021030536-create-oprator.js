@@ -1,8 +1,8 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('admin', {
-      id_admin: {
+    await queryInterface.createTable('oprator', {
+      id_oprator: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -20,6 +20,19 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      no_tlp: {
+        type: Sequelize.STRING
+      },
+      level: {
+        type: Sequelize.ENUM('admin', 'owner', 'kasir')
+      },
+      id_outlet: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "outlet",
+          key: "id_outlet"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -31,6 +44,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('admin');
+    await queryInterface.dropTable('oprator');
   }
 };

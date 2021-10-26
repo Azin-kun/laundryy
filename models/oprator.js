@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class owner extends Model {
+  class oprator extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,13 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasOne(models.transaksi, {
-        foreignKey: "id_owner",
+        foreignKey: "id_oprator",
         as: "transaksi"
+      })
+      this.belongsTo(models.outlet, {
+        foreignKey: "id_outlet",
+        as: "outlet"
       })
     }
   };
-  owner.init({
-    id_owner: {
+  oprator.init({
+    id_oprator: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -27,11 +31,13 @@ module.exports = (sequelize, DataTypes) => {
     img_profil: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    tlp: DataTypes.INTEGER
+    no_tlp: DataTypes.STRING,
+    level: DataTypes.ENUM('admin', 'owner', 'kasir'),
+    id_outlet: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'owner',
-    tableName: 'owner'
+    modelName: 'oprator',
+    tableName: 'oprator'
   });
-  return owner;
+  return oprator;
 };

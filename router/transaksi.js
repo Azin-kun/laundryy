@@ -8,7 +8,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.get("/", async(req, res) => {
     transaksi.findAll({
-        include: ["admin","owner","kasir",]
+        include: ["oprator"]
     })
     .then(result => {
         res.json(result)
@@ -23,9 +23,7 @@ app.get("/", async(req, res) => {
 app.post("/", async(req, res) => {
     //tampung data request
     let data = {
-        id_admin: req.body.id_admin,
-        id_owner: req.body.id_owner,
-        id_kasir: req.body.id_kasir,
+        id_oprator: req.body.id_oprator,
         tgl: moment().format('YYYY-MM-DD HH:mm:ss'),
         batas_waktu: req.body.batas_waktu,
         tgl_bayar: req.body.tgl_bayar,
@@ -50,9 +48,7 @@ app.post("/", async(req, res) => {
 app.put("/", async(req, res) => {
     //tampung data request
     let data = {
-        id_admin: req.body.id_admin,
-        id_owner: req.body.id_owner,
-        id_kasir: req.body.id_kasir,
+        id_oprator: req.body.id_oprator,
         tgl: moment().format('YYYY-MM-DD HH:mm:ss'),
         batas_waktu: req.body.batas_waktu,
         tgl_bayar: req.body.tgl_bayar,

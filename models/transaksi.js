@@ -11,19 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.admin, {
-        foreignKey: "id_admin",
-        as: "admin"
-      })
-
-      this.belongsTo(models.owner, {
-        foreignKey: "id_owner",
-        as: "owner"
-      })
-
-      this.belongsTo(models.kasir, {
-        foreignKey: "id_kasir",
-        as: "kasir"
+      this.belongsTo(models.oprator, {
+        foreignKey: "id_oprator",
+        as: "oprator"
       })
 
       this.hasOne(models.detail_transaksi, {
@@ -38,9 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    id_admin: DataTypes.INTEGER,
-    id_owner: DataTypes.INTEGER,
-    id_kasir: DataTypes.INTEGER,
+    id_oprator: DataTypes.INTEGER,
     tgl: DataTypes.DATE,
     batas_waktu: DataTypes.DATE,
     tgl_bayar: DataTypes.DATE,

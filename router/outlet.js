@@ -21,6 +21,7 @@ app.post("/", async(req, res) => {
     //tampung data request
     let data = {
         nama_outlet: req.body.nama_outlet,
+        jenis_outlet:req.body.jenis_outlet,
         alamat: req.body.alamat
     }
 
@@ -42,6 +43,7 @@ app.put("/", async(req, res) => {
     //tampung data request
     let data = {
         nama_outlet: req.body.nama_outlet,
+        jenis_outlet:req.body.jenis_outlet,
         alamat: req.body.alamat
     }
         

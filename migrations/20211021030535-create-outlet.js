@@ -11,6 +11,9 @@ module.exports = {
       nama_outlet: {
         type: Sequelize.STRING
       },
+      jenis_outlet: {
+        type: Sequelize.ENUM('universal', 'original')
+      },
       alamat: {
         type: Sequelize.STRING
       },
