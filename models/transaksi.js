@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "oprator"
       })
 
+      this.belongsTo(models.oprator, {
+        foreignKey: "id_member",
+        as: "member"
+      })
+
       this.hasOne(models.detail_transaksi, {
         foreignKey: "id_transaksi",
         as: "detail_transaksi"

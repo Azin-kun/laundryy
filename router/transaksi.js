@@ -24,6 +24,7 @@ app.post("/", async(req, res) => {
     //tampung data request
     let data = {
         id_oprator: req.body.id_oprator,
+        id_member: req.body.id_member,
         tgl: moment().format('YYYY-MM-DD HH:mm:ss'),
         batas_waktu: req.body.batas_waktu,
         tgl_bayar: req.body.tgl_bayar,

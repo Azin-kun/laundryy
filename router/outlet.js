@@ -5,6 +5,9 @@ const outlet = require("../models/index").outlet
 
 app.use(express.urlencoded({extended:true}))
 
+const auth = require("./auth")
+app.use(auth)
+
 app.get("/", async(req, res) => {
     outlet.findAll()
     .then(result => {
@@ -21,7 +24,6 @@ app.post("/", async(req, res) => {
     //tampung data request
     let data = {
         nama_outlet: req.body.nama_outlet,
-        jenis_outlet:req.body.jenis_outlet,
         alamat: req.body.alamat
     }
 
@@ -43,7 +45,6 @@ app.put("/", async(req, res) => {
     //tampung data request
     let data = {
         nama_outlet: req.body.nama_outlet,
-        jenis_outlet:req.body.jenis_outlet,
         alamat: req.body.alamat
     }
         

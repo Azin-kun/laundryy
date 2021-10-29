@@ -15,6 +15,13 @@ module.exports = {
           key: "id_oprator"
         }
       },
+      id_member: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "member",
+          key: "id_member"
+        }
+      },
       tgl: {
         type: Sequelize.DATE
       },
