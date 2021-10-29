@@ -8,6 +8,9 @@ app.use(express.urlencoded({extended:true}))
 const auth = require("./auth")
 app.use(auth)
 
+const {IsAdmin, IsOwner, IsKasir} = require('./level');
+app.use(IsAdmin)
+
 app.get("/", async(req, res) => {
     outlet.findAll()
     .then(result => {

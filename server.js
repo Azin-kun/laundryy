@@ -5,15 +5,15 @@ const cors = require("cors")
 const app = express()
 app.use(cors())
 
-const {IsAdmin, IsOwner, IsKasir} = require('./router/level');
-
+let member = require("./router/member")
 let outlet = require("./router/outlet")
 let oprator = require("./router/oprator")
 let paket = require("./router/paket")
 let transaksi = require("./router/transaksi")
 let detail_transaksi = require("./router/detail_transaksi")
 
-app.use("/laundry/outlet", IsAdmin, outlet)
+app.use("/laundry/member", member)
+app.use("/laundry/outlet", outlet)
 app.use("/laundry/oprator", oprator)
 app.use("/laundry/paket", paket)
 app.use("/laundry/transaksi", transaksi)

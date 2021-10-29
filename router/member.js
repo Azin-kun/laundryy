@@ -129,3 +129,5 @@ app.delete("/:id_member", async(req, res) => {
         })
     })
 })
+
+module.exports = app
